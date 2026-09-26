@@ -54,7 +54,8 @@ public class ServoMotorSubsystem<IO extends MotorIO> extends MotorSubsystem<IO> 
    * @param epsilonThreshold Acceptable error range for position.
    * @param config Homing configuration.
    */
-  public ServoMotorSubsystem(IO io, String name, double gearRatio, Angle epsilonThreshold, ServoHomingConfig config) {
+  public ServoMotorSubsystem(
+      IO io, String name, double gearRatio, Angle epsilonThreshold, ServoHomingConfig config) {
     this(io, name, gearRatio, epsilonThreshold);
     this.isHomingSubsystem = true;
     homingConfig = config;
@@ -118,7 +119,8 @@ public class ServoMotorSubsystem<IO extends MotorIO> extends MotorSubsystem<IO> 
    *     control.
    */
   public boolean nearPositionSetpoint() {
-    return (getSetpoint().mode.isPositionControl()) && nearPosition(BaseUnits.AngleUnit.of(getSetpoint().baseUnits / gearRatio));
+    return (getSetpoint().mode.isPositionControl())
+        && nearPosition(BaseUnits.AngleUnit.of(getSetpoint().baseUnits / gearRatio));
   }
 
   /**
@@ -133,7 +135,8 @@ public class ServoMotorSubsystem<IO extends MotorIO> extends MotorSubsystem<IO> 
   /**
    * Determines whether the subsystem is near a given position.
    *
-   * @param mechanismPosition Position to compare to, in mechanism units (i.e. accounting for gear ratio).
+   * @param mechanismPosition Position to compare to, in mechanism units (i.e. accounting for gear
+   *     ratio).
    * @return True if near provided position, false if not.
    */
   public boolean nearPosition(Angle mechanismPosition) {
@@ -160,7 +163,8 @@ public class ServoMotorSubsystem<IO extends MotorIO> extends MotorSubsystem<IO> 
   /**
    * Creates a Command that waits until the mechanism is near a given position.
    *
-   * @param mechanismPosition Position to evaluate proximity to, in mechanism units (i.e. accounting for gear ratio).
+   * @param mechanismPosition Position to evaluate proximity to, in mechanism units (i.e. accounting
+   *     for gear ratio).
    * @return A wait command.
    */
   public Command waitForPositionCommand(Angle mechanismPosition) {
@@ -174,7 +178,8 @@ public class ServoMotorSubsystem<IO extends MotorIO> extends MotorSubsystem<IO> 
    * Creates a Command that sets the mechanism to a setpoint and then waits until the mechanism is
    * the setpoint's position.
    *
-   * @param mechanismPosition Position to evaluate proximity to, in mechanism units (i.e. accounting for gear ratio).
+   * @param mechanismPosition Position to evaluate proximity to, in mechanism units (i.e. accounting
+   *     for gear ratio).
    * @return A new Command to apply setpoint and wait.
    */
   public Command setpointCommandWithWait(Setpoint setpoint) {
@@ -203,7 +208,8 @@ public class ServoMotorSubsystem<IO extends MotorIO> extends MotorSubsystem<IO> 
   /**
    * Set's the mechanism's current location as a given position.
    *
-   * @param mechanismPosition the mechanism's position to set location as, in mechanism units (i.e. accounting for gear ratio).
+   * @param mechanismPosition the mechanism's position to set location as, in mechanism units (i.e.
+   *     accounting for gear ratio).
    */
   public void setCurrentPosition(Angle position) {
     io.setCurrentPosition(position.times(gearRatio));

@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.io.MotorIO;
 import frc.lib.io.MotorIO.Setpoint;
 import java.util.function.Supplier;
-
 import org.littletonrobotics.junction.Logger;
 
 /** Base subsystem for any subsystem that uses motors. */
@@ -40,8 +39,8 @@ public class MotorSubsystem<IO extends MotorIO> extends SubsystemBase {
   public void periodic() {
     io.updateInputs();
     io.processLogging(name);
-    Logger.recordOutput(name+"/Setpoint/Mode", io.getSetpoint().mode.toString());
-    Logger.recordOutput(name+"/Setpoint/Value", io.getSetpoint().baseUnits);
+    Logger.recordOutput(name + "/Setpoint/Mode", io.getSetpoint().mode.toString());
+    Logger.recordOutput(name + "/Setpoint/Value", io.getSetpoint().baseUnits);
   }
 
   /**

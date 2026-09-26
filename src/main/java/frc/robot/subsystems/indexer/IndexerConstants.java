@@ -4,11 +4,9 @@
 
 package frc.robot.subsystems.indexer;
 
-import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Dimensionless;
 import frc.lib.io.MotorIOSpark;
@@ -21,7 +19,6 @@ public class IndexerConstants {
 
   public static final Dimensionless kFeedPower = Units.Value.of(0.75);
   public static final Dimensionless kEjectPower = Units.Value.of(-1);
-
 
   public static SparkBaseConfig getSparkConfig() {
     SparkBaseConfig config = new SparkMaxConfig();

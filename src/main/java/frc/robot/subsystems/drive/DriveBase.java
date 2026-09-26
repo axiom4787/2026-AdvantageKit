@@ -35,7 +35,6 @@ import frc.lib.util.LocalADStarAK;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.subsystems.FieldConstants;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -51,7 +50,7 @@ public abstract class DriveBase extends SubsystemBase {
   private Pose2d aimTarget = Pose2d.kZero;
   private Rotation2d aimAngle = Rotation2d.kZero;
   private double aimDist = 0.0;
-  
+
   public static final double ODOMETRY_FREQUENCY = 100.0; // Hz
   public static final Lock odometryLock = new ReentrantLock();
 
@@ -208,7 +207,10 @@ public abstract class DriveBase extends SubsystemBase {
         aimTarget = FieldConstants.RED_HUB;
       } else {
         aimMode = AimMode.PASS;
-        aimTarget = robotPose.getY() > FieldConstants.CENTER_LINE_Y ? FieldConstants.RED_PASS_OUTPOST : FieldConstants.RED_PASS_DEPOT;
+        aimTarget =
+            robotPose.getY() > FieldConstants.CENTER_LINE_Y
+                ? FieldConstants.RED_PASS_OUTPOST
+                : FieldConstants.RED_PASS_DEPOT;
       }
     } else {
       if (robotPose.getX() < FieldConstants.BLUE_ALLIANCE_LINE_X) {
@@ -216,7 +218,10 @@ public abstract class DriveBase extends SubsystemBase {
         aimTarget = FieldConstants.BLUE_HUB;
       } else {
         aimMode = AimMode.PASS;
-        aimTarget = robotPose.getY() < FieldConstants.CENTER_LINE_Y ? FieldConstants.BLUE_PASS_OUTPOST : FieldConstants.BLUE_PASS_DEPOT;
+        aimTarget =
+            robotPose.getY() < FieldConstants.CENTER_LINE_Y
+                ? FieldConstants.BLUE_PASS_OUTPOST
+                : FieldConstants.BLUE_PASS_DEPOT;
       }
     }
     aimDist = Math.abs(robotPose.getTranslation().getDistance(aimTarget.getTranslation()));
@@ -374,8 +379,7 @@ public abstract class DriveBase extends SubsystemBase {
     return getMaxLinearSpeedMetersPerSec() / getDriveBaseRadiusMeters();
   }
 
-  public enum AimMode
-  {
+  public enum AimMode {
     SCORE,
     PASS
   }

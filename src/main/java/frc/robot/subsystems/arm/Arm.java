@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems.arm;
 
-import frc.lib.io.MotorIOSpark;
 import frc.lib.io.MotorIO.Setpoint;
+import frc.lib.io.MotorIOSpark;
 import frc.lib.subsystems.MotorSubsystem;
 
 public class Arm extends MotorSubsystem<MotorIOSpark> {

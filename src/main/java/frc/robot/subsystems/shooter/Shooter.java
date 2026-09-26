@@ -4,18 +4,15 @@
 
 package frc.robot.subsystems.shooter;
 
-import frc.lib.io.MotorIOSpark;
-
-import org.littletonrobotics.junction.Logger;
-
 import frc.lib.io.MotorIO.Setpoint;
+import frc.lib.io.MotorIOSpark;
 import frc.lib.subsystems.FlywheelMotorSubsystem;
 
 public class Shooter extends FlywheelMotorSubsystem<MotorIOSpark> {
   public static final Shooter mInstance = new Shooter();
 
   public static final Setpoint IDLE = Setpoint.withNeutralSetpoint();
-  
+
   /** Creates a new Shooter. */
   public Shooter() {
     super(ShooterConstants.getMotorIO(), "Shooter", 1.0, ShooterConstants.kEpsilonThreshold);

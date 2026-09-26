@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems.intake;
 
-import org.littletonrobotics.junction.Logger;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.io.MotorIO.Setpoint;
 import frc.lib.io.MotorIOSpark;
 import frc.lib.subsystems.FlywheelMotorSubsystem;
@@ -20,7 +17,11 @@ public class Intake extends FlywheelMotorSubsystem<MotorIOSpark> {
 
   /** Creates a new Intake. */
   public Intake() {
-    super(IntakeConstants.getMotorIO(), "Intake", IntakeConstants.kGearRatio, IntakeConstants.kEpsilonThreshold);
+    super(
+        IntakeConstants.getMotorIO(),
+        "Intake",
+        IntakeConstants.kGearRatio,
+        IntakeConstants.kEpsilonThreshold);
   }
 
   @Override

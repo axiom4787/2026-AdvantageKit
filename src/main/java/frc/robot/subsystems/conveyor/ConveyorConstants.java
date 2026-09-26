@@ -4,11 +4,9 @@
 
 package frc.robot.subsystems.conveyor;
 
-import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Dimensionless;
 import frc.lib.io.MotorIOSpark;
