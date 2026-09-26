@@ -34,6 +34,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.util.LocalADStarAK;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import frc.robot.subsystems.FieldConstants;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -45,6 +47,11 @@ import org.littletonrobotics.junction.Logger;
  * and sourcing PathPlanner's RobotConfig / drivetrain constants) are left to subclasses.
  */
 public abstract class DriveBase extends SubsystemBase {
+  private AimMode aimMode = AimMode.SCORE;
+  private Pose2d aimTarget = Pose2d.kZero;
+  private Rotation2d aimAngle = Rotation2d.kZero;
+  private double aimDist = 0.0;
+  
   public static final double ODOMETRY_FREQUENCY = 100.0; // Hz
   public static final Lock odometryLock = new ReentrantLock();
 
@@ -188,7 +195,53 @@ public abstract class DriveBase extends SubsystemBase {
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
     }
 
+    // Calculate aim targets
+    updateAimTarget(getPose());
+
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
+  }
+
+  private void updateAimTarget(Pose2d robotPose) {
+    if (isRedAlliance()) {
+      if (robotPose.getX() > FieldConstants.RED_ALLIANCE_LINE_X) {
+        aimMode = AimMode.SCORE;
+        aimTarget = FieldConstants.RED_HUB;
+      } else {
+        aimMode = AimMode.PASS;
+        aimTarget = robotPose.getY() > FieldConstants.CENTER_LINE_Y ? FieldConstants.RED_PASS_OUTPOST : FieldConstants.RED_PASS_DEPOT;
+      }
+    } else {
+      if (robotPose.getX() < FieldConstants.BLUE_ALLIANCE_LINE_X) {
+        aimMode = AimMode.SCORE;
+        aimTarget = FieldConstants.BLUE_HUB;
+      } else {
+        aimMode = AimMode.PASS;
+        aimTarget = robotPose.getY() < FieldConstants.CENTER_LINE_Y ? FieldConstants.BLUE_PASS_OUTPOST : FieldConstants.BLUE_PASS_DEPOT;
+      }
+    }
+    aimDist = Math.abs(robotPose.getTranslation().getDistance(aimTarget.getTranslation()));
+    aimAngle = aimTarget.getTranslation().minus(robotPose.getTranslation()).getAngle();
+  }
+
+  public AimMode getAimMode() {
+    return aimMode;
+  }
+
+  public Pose2d getAimTarget() {
+    return aimTarget;
+  }
+
+  public Rotation2d getAimAngle() {
+    return aimAngle;
+  }
+
+  public double getAimDist() {
+    return aimDist;
+  }
+
+  private boolean isRedAlliance() {
+    var alliance = DriverStation.getAlliance();
+    return alliance.isPresent() ? alliance.get() == DriverStation.Alliance.Red : false;
   }
 
   /**
@@ -319,5 +372,11 @@ public abstract class DriveBase extends SubsystemBase {
   /** Returns the maximum angular speed in radians per sec. */
   public double getMaxAngularSpeedRadPerSec() {
     return getMaxLinearSpeedMetersPerSec() / getDriveBaseRadiusMeters();
+  }
+
+  public enum AimMode
+  {
+    SCORE,
+    PASS
   }
 }

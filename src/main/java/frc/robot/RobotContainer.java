@@ -26,6 +26,9 @@ import frc.robot.subsystems.drive.ctre.ModuleIOTalonFX;
 import frc.robot.subsystems.drive.ctre.PhoenixDrive;
 import frc.robot.subsystems.drive.rev.ModuleIOSparkSim;
 import frc.robot.subsystems.drive.rev.SparkDrive;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.superstructure.Superstructure;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
@@ -137,8 +140,21 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // Switch to X pattern while X button is pressed
-    controller.x().whileTrue(Commands.run(drive::stopWithX, drive));
+    controller.leftTrigger().whileTrue(Superstructure.mInstance.intakeCommand());
+
+    controller.x().whileTrue(Superstructure.mInstance.exhaustCommand());
+
+    controller.rightTrigger().whileTrue(Superstructure.mInstance.scoreCommand(drive::getAimMode, drive::getAimDist));
+    controller.rightTrigger().whileTrue(DriveCommands.joystickDriveAtAngle(
+        drive, 
+        () -> 0.0, 
+        () -> 0.0, 
+        drive::getAimAngle));
+
+    controller.leftBumper().whileTrue(Superstructure.mInstance.deployIntakeCommand());
+    controller.rightBumper().whileTrue(Superstructure.mInstance.stowIntakeCommand());
+
+    controller.leftStick().whileTrue(Commands.run(drive::stopWithX, drive));
 
     // Reset gyro to 0° when A button is pressed
     controller
