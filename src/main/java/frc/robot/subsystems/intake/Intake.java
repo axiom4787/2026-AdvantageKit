@@ -5,10 +5,9 @@
 package frc.robot.subsystems.intake;
 
 import frc.lib.io.MotorIO.Setpoint;
-import frc.lib.io.MotorIOSpark;
 import frc.lib.subsystems.FlywheelMotorSubsystem;
 
-public class Intake extends FlywheelMotorSubsystem<MotorIOSpark> {
+public class Intake extends FlywheelMotorSubsystem {
   public static final Intake mInstance = new Intake();
 
   public static final Setpoint IDLE = Setpoint.withNeutralSetpoint();
@@ -18,7 +17,7 @@ public class Intake extends FlywheelMotorSubsystem<MotorIOSpark> {
   /** Creates a new Intake. */
   public Intake() {
     super(
-        IntakeConstants.getMotorIO(),
+        IntakeConstants::getMotorIO,
         "Intake",
         IntakeConstants.kGearRatio,
         IntakeConstants.kEpsilonThreshold);

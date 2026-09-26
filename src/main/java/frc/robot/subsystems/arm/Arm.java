@@ -5,10 +5,9 @@
 package frc.robot.subsystems.arm;
 
 import frc.lib.io.MotorIO.Setpoint;
-import frc.lib.io.MotorIOSpark;
 import frc.lib.subsystems.MotorSubsystem;
 
-public class Arm extends MotorSubsystem<MotorIOSpark> {
+public class Arm extends MotorSubsystem {
   public static final Arm mInstance = new Arm();
 
   public static final Setpoint IDLE = Setpoint.withNeutralSetpoint();
@@ -17,7 +16,7 @@ public class Arm extends MotorSubsystem<MotorIOSpark> {
 
   /** Creates a new Arm. */
   public Arm() {
-    super(ArmConstants.getMotorIO(), "Arm", ArmConstants.kGearRatio);
+    super(ArmConstants::getMotorIO, "Arm", ArmConstants.kGearRatio);
   }
 
   @Override

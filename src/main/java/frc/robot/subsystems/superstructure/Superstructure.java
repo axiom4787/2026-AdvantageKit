@@ -40,7 +40,8 @@ public class Superstructure extends SubsystemBase {
     Conveyor.mInstance.setDefaultCommand(
         Conveyor.mInstance.followSetpointCommand(() -> Conveyor.IDLE));
     Arm.mInstance.setDefaultCommand(Arm.mInstance.followSetpointCommand(() -> Arm.IDLE));
-    Shooter.mInstance.setDefaultCommand(Shooter.mInstance.followSetpointCommand(() -> Setpoint.withNeutralSetpoint()));
+    Shooter.mInstance.setDefaultCommand(
+        Shooter.mInstance.followSetpointCommand(() -> Setpoint.withNeutralSetpoint()));
     mInstance.setDefaultCommand(new InstantCommand(() -> state = SuperstructureState.IDLE));
   }
 

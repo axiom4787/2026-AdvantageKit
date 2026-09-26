@@ -5,10 +5,9 @@
 package frc.robot.subsystems.conveyor;
 
 import frc.lib.io.MotorIO.Setpoint;
-import frc.lib.io.MotorIOSpark;
 import frc.lib.subsystems.MotorSubsystem;
 
-public class Conveyor extends MotorSubsystem<MotorIOSpark> {
+public class Conveyor extends MotorSubsystem {
   public static final Conveyor mInstance = new Conveyor();
 
   public static final Setpoint IDLE = Setpoint.withNeutralSetpoint();
@@ -20,7 +19,7 @@ public class Conveyor extends MotorSubsystem<MotorIOSpark> {
 
   /** Creates a new Conveyor. */
   public Conveyor() {
-    super(ConveyorConstants.getMotorIO(), "Conveyor", ConveyorConstants.kGearRatio);
+    super(ConveyorConstants::getMotorIO, "Conveyor", ConveyorConstants.kGearRatio);
   }
 
   @Override

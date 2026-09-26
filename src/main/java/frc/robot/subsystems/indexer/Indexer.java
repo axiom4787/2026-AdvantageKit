@@ -5,10 +5,9 @@
 package frc.robot.subsystems.indexer;
 
 import frc.lib.io.MotorIO.Setpoint;
-import frc.lib.io.MotorIOSpark;
 import frc.lib.subsystems.MotorSubsystem;
 
-public class Indexer extends MotorSubsystem<MotorIOSpark> {
+public class Indexer extends MotorSubsystem {
   public static final Indexer mInstance = new Indexer();
 
   public static final Setpoint IDLE = Setpoint.withNeutralSetpoint();
@@ -17,7 +16,7 @@ public class Indexer extends MotorSubsystem<MotorIOSpark> {
 
   /** Creates a new Indexer. */
   public Indexer() {
-    super(IndexerConstants.getMotorIO(), "Indexer", IndexerConstants.kGearRatio);
+    super(IndexerConstants::getMotorIO, "Indexer", IndexerConstants.kGearRatio);
   }
 
   @Override
