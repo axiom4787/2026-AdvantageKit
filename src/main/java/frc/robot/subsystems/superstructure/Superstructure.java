@@ -33,7 +33,9 @@ public class Superstructure extends SubsystemBase {
   private SuperstructureState state = SuperstructureState.IDLE;
 
   /** Creates a new Superstructure. */
-  public Superstructure() {
+  public Superstructure() {}
+
+  public void setDefaultCmds() {
     Intake.mInstance.setDefaultCommand(Intake.mInstance.followSetpointCommand(() -> Intake.IDLE));
     Indexer.mInstance.setDefaultCommand(
         Indexer.mInstance.followSetpointCommand(() -> Indexer.IDLE));
@@ -42,7 +44,7 @@ public class Superstructure extends SubsystemBase {
     Arm.mInstance.setDefaultCommand(Arm.mInstance.followSetpointCommand(() -> Arm.IDLE));
     Shooter.mInstance.setDefaultCommand(
         Shooter.mInstance.followSetpointCommand(() -> Setpoint.withNeutralSetpoint()));
-    mInstance.setDefaultCommand(new InstantCommand(() -> state = SuperstructureState.IDLE));
+    mInstance.setDefaultCommand(new InstantCommand(() -> state = SuperstructureState.IDLE, this));
   }
 
   @Override
@@ -105,7 +107,7 @@ public class Superstructure extends SubsystemBase {
                 new WaitUntilCommand(Shooter.mInstance::spunUp)
                     .andThen(
                         new ParallelCommandGroup(
-                            Intake.mInstance.followSetpointCommand(() -> Intake.IDLE),
+                            Intake.mInstance.followSetpointCommand(() -> Intake.INTAKE),
                             Conveyor.mInstance.followSetpointCommand(() -> Conveyor.FEED),
                             Indexer.mInstance.followSetpointCommand(() -> Indexer.FEED))))
             .withInterruptBehavior(InterruptionBehavior.kCancelIncoming)

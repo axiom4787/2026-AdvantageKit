@@ -17,13 +17,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.DriveBase;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.ModuleIO;
-import frc.robot.subsystems.drive.ctre.GyroIOPigeon2Phoenix;
-import frc.robot.subsystems.drive.ctre.ModuleIOTalonFX;
-import frc.robot.subsystems.drive.ctre.PhoenixDrive;
+import frc.robot.subsystems.drive.rev.GyroIONavXSpark;
+import frc.robot.subsystems.drive.rev.ModuleIOSpark;
 import frc.robot.subsystems.drive.rev.ModuleIOSparkSim;
 import frc.robot.subsystems.drive.rev.SparkDrive;
 import frc.robot.subsystems.superstructure.Superstructure;
@@ -56,12 +54,12 @@ public class RobotContainer {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         drive =
-            new PhoenixDrive(
-                new GyroIOPigeon2Phoenix(),
-                new ModuleIOTalonFX(TunerConstants.FrontLeft),
-                new ModuleIOTalonFX(TunerConstants.FrontRight),
-                new ModuleIOTalonFX(TunerConstants.BackLeft),
-                new ModuleIOTalonFX(TunerConstants.BackRight));
+            new SparkDrive(
+                new GyroIONavXSpark(),
+                new ModuleIOSpark(0),
+                new ModuleIOSpark(1),
+                new ModuleIOSpark(2),
+                new ModuleIOSpark(3));
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {});
         break;
 
@@ -130,6 +128,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Superstructure.mInstance.setDefaultCmds();
+
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
